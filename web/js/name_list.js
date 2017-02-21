@@ -98,6 +98,8 @@ function showDialogAdd() {
         var regPhone = /\(?([0-9]{3})\)?([ .-]?)([0-9]{3})\2([0-9]{4})/;
         var regBirthday = /(\d+)(-|\/)(\d+)(?:-|\/)(?:(\d+)\s+(\d+):(\d+)(?::(\d+))?(?:\.(\d+))?)?/;
 
+        var valid_form = true;
+
         // Test the regular expression to see if there is a match
         if (reg.test(v1)) {
             $('#firstNameDiv').removeClass("has-error");
@@ -113,6 +115,7 @@ function showDialogAdd() {
             $('#firstNameGlyph').addClass("glyphicon-remove");
             $('firstNameStatus').val("(error)");
             console.log("failed");
+            valid_form = false;
         }
         if (reg.test(v2)) {
             $('#lastNameDiv').removeClass("has-error");
@@ -128,6 +131,7 @@ function showDialogAdd() {
             $('#lastNameGlyph').addClass("glyphicon-remove");
             $('lastNameStatus').val("(error)");
             console.log("failed");
+            valid_form = false;
         }
         if (regEmail.test(v3)) {
             $('#emailDiv').removeClass("has-error");
@@ -143,6 +147,7 @@ function showDialogAdd() {
             $('#emailGlyph').addClass("glyphicon-remove");
             $('emailStatus').val("(error)");
             console.log("failed");
+            valid_form = false;
         }
         if (regPhone.test(v4)) {
             $('#phoneDiv').removeClass("has-error");
@@ -158,6 +163,7 @@ function showDialogAdd() {
             $('#phoneGlyph').addClass("glyphicon-remove");
             $('phoneStatus').val("(error)");
             console.log("failed");
+            valid_form = false;
         }
         if (regBirthday.test(v5)) {
             $('#birthdayDiv').removeClass("has-error");
@@ -173,6 +179,24 @@ function showDialogAdd() {
             $('#birthdayGlyph').addClass("glyphicon-remove");
             $('birthdayStatus').val("(error)");
             console.log("failed");
+            valid_form = false;
+        }
+
+        if (valid_form){
+            var url = "/api/name_list_edit";
+            var firstName = $("#firstName").val();
+            var lastName = $("#lastName").val();
+            var email = $("#email").val();
+            var phone = $("#phone").val();
+            var birthday = $("#birthday").val();
+
+            var dataToServer = { "firstName" : firstName, "lastName" : lastName, "email" : email, "phone" : phone, "birthday" : birthday};
+            console.log(dataToServer);
+
+           $.post(url, dataToServer, function (dataToServer) {
+                console.log("Finished calling servlet.");
+                console.log(dataToServer);
+            });
         }
     }
 
@@ -181,6 +205,8 @@ function showDialogAdd() {
 var saveChangesButton = $('#saveChanges');
 saveChangesButton.on("click", saveFormChanges);
 saveChangesButton.on("click", validateFunction);
+
+
 
 
 // Call your code.
