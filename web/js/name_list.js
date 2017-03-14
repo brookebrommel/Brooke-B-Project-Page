@@ -13,13 +13,17 @@ function updateTable() {
             var mystring = json_result[i].phone;
             mystring = mystring.substring(0,3) + "-" + mystring.substring(3,6) + "-" + mystring.substring(6,10);
             console.log(mystring);
-                $("#datatable tbody").append("<tr><td>"+json_result[i].id+"</td>" +
-                    "<td>"+json_result[i].first+"</td>" +
-                    "<td>"+json_result[i].last+"</td>" +
-                    "<td>"+json_result[i].email+"</td>" +
-                    "<td>"+mystring+"</td>" +
-                    "<td>"+json_result[i].birthday+"</td></tr>");
-                }
+            $("#datatable tbody").append("<tr><td>"+json_result[i].id+"</td>" +
+                "<td>"+json_result[i].first+"</td>" +
+                "<td>"+json_result[i].last+"</td>" +
+                "<td>"+json_result[i].email+"</td>" +
+                "<td>"+mystring+"</td>" +
+                "<td>"+json_result[i].birthday+"</td>" +
+                "<td><button type='button' name='delete' class='deleteButton btn' value='" + json_result[i].id + "'>Delete</button></td></tr>");
+            }
+
+            var deleteButtons = $(".deleteButton");
+            deleteButtons.on("click", deleteItem);
             console.log("Done");
         }
     );
@@ -193,9 +197,9 @@ function showDialogAdd() {
             var dataToServer = { "firstName" : firstName, "lastName" : lastName, "email" : email, "phone" : phone, "birthday" : birthday};
             console.log(dataToServer);
 
-           $.post(url, dataToServer, function (dataToServer) {
+           $.post(url, dataToServer, function (dataFromServer) {
                 console.log("Finished calling servlet.");
-                console.log(dataToServer);
+                console.log(dataFromServer);
             });
         }
     }
@@ -205,6 +209,23 @@ function showDialogAdd() {
 var saveChangesButton = $('#saveChanges');
 saveChangesButton.on("click", saveFormChanges);
 saveChangesButton.on("click", validateFunction);
+
+function deleteItem(e) {
+    console.debug("Delete");
+    var idValue = e.target.value;
+    console.debug(idValue);
+    var url = "api/name_list_delete";
+    var dataToServer = { id : idValue };
+
+    $.post(url, dataToServer, function (dataFromServer) {
+        console.log("Finished calling servlet.");
+        console.log(dataFromServer);
+        updateTable();
+    })
+}
+
+var buttons = $(".deleteButton");
+buttons.on("click", deleteItem);
 
 
 
