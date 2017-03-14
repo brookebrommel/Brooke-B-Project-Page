@@ -7,7 +7,8 @@ function updateTable() {
             // json_result is an object. You can set a breakpoint, or print
             // it to see the fields. Specifically, it is an array of objects.
             // Here we loop the array and print the first name.
-        $('#datatable tr:eq(1)').remove();
+        $('#datatable tr').remove();
+
 
         for (var i = 0; i < json_result.length; i++) {
             var mystring = json_result[i].phone;
@@ -19,7 +20,8 @@ function updateTable() {
                 "<td>"+json_result[i].email+"</td>" +
                 "<td>"+mystring+"</td>" +
                 "<td>"+json_result[i].birthday+"</td>" +
-                "<td><button type='button' name='delete' class='deleteButton btn' value='" + json_result[i].id + "'>Delete</button></td></tr>");
+                "<td><button type='button' name='delete' class='deleteButton btn' value='" + json_result[i].id + "'>Delete</button></td>" +
+                "<td><button type='button' name='edit' class='editButton btn' value='" + json_result[i].id + "'>Edit</button></td></tr>");
             }
 
             var deleteButtons = $(".deleteButton");
@@ -79,11 +81,13 @@ function showDialogAdd() {
     $('#birthdayDiv').removeClass("has-success");
     $('#birthdayGlyph').removeClass("glyphicon-remove");
     $('#birthdayGlyph').removeClass("glyphicon-ok");
+
+    $('#myModal').modal('show');
 }
 
 // Called when "Save Changes" button is clicked
     function saveFormChanges() {
-
+        validateFunction();
         // Print that we got here
         console.log("Saving Changes");
     }
@@ -209,6 +213,7 @@ function showDialogAdd() {
 var saveChangesButton = $('#saveChanges');
 saveChangesButton.on("click", saveFormChanges);
 saveChangesButton.on("click", validateFunction);
+saveChangesButton.on("click", updateTable);
 
 function deleteItem(e) {
     console.debug("Delete");
@@ -220,6 +225,7 @@ function deleteItem(e) {
     $.post(url, dataToServer, function (dataFromServer) {
         console.log("Finished calling servlet.");
         console.log(dataFromServer);
+        $('#datatable tr').remove();
         updateTable();
     })
 }
@@ -227,7 +233,13 @@ function deleteItem(e) {
 var buttons = $("deleteButton");
 buttons.on("click", deleteItem);
 
+function editItem(e) {
+    console.debug("Edit");
+    console.debug(e.target.value);
+}
 
+var buttons = $(".editButton");
+buttons.on("click", editItem);
 
 
 // Call your code.
