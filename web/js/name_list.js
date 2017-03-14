@@ -224,7 +224,7 @@ function deleteItem(e) {
     })
 }
 
-var buttons = $(".deleteButton");
+var buttons = $("deleteButton");
 buttons.on("click", deleteItem);
 
 

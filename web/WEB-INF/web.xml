@@ -29,4 +29,9 @@
         <url-pattern>/api/name_list_delete</url-pattern>
     </servlet-mapping>
 
+    <servlet>
+        <servlet-name>NameListDelete</servlet-name>
+        <servlet-class>edu.simpson.brooke.NameListDelete</servlet-class>
+    </servlet>
+
 </web-app>

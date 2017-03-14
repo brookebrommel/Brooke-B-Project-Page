@@ -15,7 +15,7 @@ import java.io.PrintWriter;
 public class NameListDelete extends HttpServlet {
 
         protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-            response.setContentType("application/json");
+            response.setContentType("text/plain");
             PrintWriter out = response.getWriter();
             out.println("Post");
 
