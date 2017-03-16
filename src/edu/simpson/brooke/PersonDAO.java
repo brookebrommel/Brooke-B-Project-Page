@@ -189,7 +189,8 @@ public class PersonDAO {
         }
     }
 
-    public static void editPerson(Person person) {
+
+    public static void updatePerson(Person person) {
         log.log(Level.FINE, "Set people");
 
 
@@ -203,11 +204,13 @@ public class PersonDAO {
             // Get our database connection
             conn = DBHelper.getConnection();
 
-            String sql = "update person set first=?, last=?, email=?, phone=?, birthday=? where id=?";
+            // This is a string that is our SQL query.
+            String sql = "UPDATE person SET first=?, last=?, phone=?, email=?, birthday=? WHERE id=?";
 
 
             // Create an object with all the info about our SQL statement to run.
             stmt = conn.prepareStatement(sql);
+
 
             stmt.setString(1, person.getFirst());
             stmt.setString(2, person.getLast());
@@ -215,6 +218,7 @@ public class PersonDAO {
             stmt.setString(4, person.getPhone());
             stmt.setString(5, person.getBirthday());
             stmt.setInt(6, person.getId());
+
 
             stmt.executeUpdate();
 

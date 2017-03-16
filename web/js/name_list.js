@@ -13,7 +13,6 @@ function updateTable() {
         for (var i = 0; i < json_result.length; i++) {
             var mystring = json_result[i].phone;
             mystring = mystring.substring(0,3) + "-" + mystring.substring(3,6) + "-" + mystring.substring(6,10);
-            console.log(mystring);
             $("#datatable tbody").append("<tr><td>"+json_result[i].id+"</td>" +
                 "<td>"+json_result[i].first+"</td>" +
                 "<td>"+json_result[i].last+"</td>" +
@@ -248,12 +247,17 @@ function editItem(e) {
     // Grab the id from the event
     //var id = e.target.value;
 
-    var id = e.target.parentNode.parentNode.querySelectorAll("td")[0].innerHTML;
+    var id = e.target.value;
     var firstName = e.target.parentNode.parentNode.querySelectorAll("td")[1].innerHTML;
+    console.log(firstName);
     var lastName = e.target.parentNode.parentNode.querySelectorAll("td")[2].innerHTML;
+    console.log(lastName);
     var email = e.target.parentNode.parentNode.querySelectorAll("td")[3].innerHTML;
+    console.log(email);
     var phone = e.target.parentNode.parentNode.querySelectorAll("td")[4].innerHTML;
+    console.log(phone);
     var birthday = e.target.parentNode.parentNode.querySelectorAll("td")[5].innerHTML;
+    console.log(birthday);
 
 
     $('#id').val(id); // Yes, now we set and use the hidden ID field

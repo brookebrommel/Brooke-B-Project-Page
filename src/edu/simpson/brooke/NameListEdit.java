@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -18,7 +19,7 @@ import java.util.regex.Pattern;
 @WebServlet(name = "NameListEdit")
 public class NameListEdit extends HttpServlet {
 
-
+    private final static Logger log = Logger.getLogger(NameListEdit.class.getName());
     private Pattern firstNameValidationPattern;
     private Pattern lastNameValidationPattern;
     private Pattern emailValidationPattern;
@@ -27,6 +28,7 @@ public class NameListEdit extends HttpServlet {
 
 
     public NameListEdit() {
+
 
 
         // --- Compile and set up all the regular expression patterns here ---
@@ -57,51 +59,55 @@ public class NameListEdit extends HttpServlet {
 
         Matcher m1 = firstNameValidationPattern.matcher(firstName);
         if (m1.find()) {
-            out.println("Passed validation");
+            out.println("Passed first name validation");
         } else {
-            out.println("Did not pass validation");
+            out.println("Did not pass first name validation");
         }
 
         Matcher m2 = lastNameValidationPattern.matcher(lastName);
         if (m2.find()) {
-            out.println("Passed validation");
+            out.println("Passed last name validation");
         } else {
-            out.println("Did not pass validation");
+            out.println("Did not pass last name validation");
         }
 
         Matcher m3 = emailValidationPattern.matcher(email);
         if (m3.find()) {
-            out.println("Passed validation");
+            out.println("Passed email validation");
         } else {
-            out.println("Did not pass validation");
+            out.println("Did not pass email  validation");
         }
 
         Matcher m4 = phoneValidationPattern.matcher(phone);
         if (m4.find()) {
-            out.println("Passed validation");
+            out.println("Passed phone validation");
         } else {
-            out.println("Did not pass validation");
+            out.println("Did not pass phone validation");
         }
 
         Matcher m5 = birthdayValidationPattern.matcher(birthday);
         if (m5.find()) {
-            out.println("Passed validation");
+            out.println("Passed birthday validation");
         } else {
-            out.println("Did not pass validation");
+            out.println("Did not pass birthday validation");
         }
 
 
+
         Person person = new Person();
+        person.setId(Integer.parseInt(id));
+        out.println("made it");
+        out.println(Integer.parseInt(id));
         person.setFirst(firstName);
         person.setLast(lastName);
         person.setEmail(email);
         person.setPhone(phone);
         person.setBirthday(birthday);
 
-        if (id == null) {
+        if (id.equals("")) {
             PersonDAO.setPerson(person);
         } else {
-            PersonDAO.editPerson(person);
+            PersonDAO.updatePerson(person);
         }
     }
 }
