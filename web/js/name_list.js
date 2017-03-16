@@ -26,6 +26,10 @@ function updateTable() {
 
             var deleteButtons = $(".deleteButton");
             deleteButtons.on("click", deleteItem);
+
+            var editButton = $(".editButton");
+            editButton.on("click", editItem);
+
             console.log("Done");
         }
     );
@@ -192,18 +196,22 @@ function showDialogAdd() {
 
         if (valid_form){
             var url = "/api/name_list_edit";
+            var id = $("#id").val();
             var firstName = $("#firstName").val();
             var lastName = $("#lastName").val();
             var email = $("#email").val();
             var phone = $("#phone").val();
             var birthday = $("#birthday").val();
 
-            var dataToServer = { "firstName" : firstName, "lastName" : lastName, "email" : email, "phone" : phone, "birthday" : birthday};
+            var dataToServer = { "id" : id, "firstName" : firstName, "lastName" : lastName, "email" : email, "phone" : phone, "birthday" : birthday};
             console.log(dataToServer);
 
            $.post(url, dataToServer, function (dataFromServer) {
                 console.log("Finished calling servlet.");
                 console.log(dataFromServer);
+               $('#myModal').modal('hide');
+               $('#datatable tr').remove();
+               updateTable();
             });
         }
     }
@@ -212,8 +220,8 @@ function showDialogAdd() {
 
 var saveChangesButton = $('#saveChanges');
 saveChangesButton.on("click", saveFormChanges);
-saveChangesButton.on("click", validateFunction);
-saveChangesButton.on("click", updateTable);
+
+
 
 function deleteItem(e) {
     console.debug("Delete");
@@ -236,10 +244,30 @@ buttons.on("click", deleteItem);
 function editItem(e) {
     console.debug("Edit");
     console.debug(e.target.value);
+
+    // Grab the id from the event
+    //var id = e.target.value;
+
+    var id = e.target.parentNode.parentNode.querySelectorAll("td")[0].innerHTML;
+    var firstName = e.target.parentNode.parentNode.querySelectorAll("td")[1].innerHTML;
+    var lastName = e.target.parentNode.parentNode.querySelectorAll("td")[2].innerHTML;
+    var email = e.target.parentNode.parentNode.querySelectorAll("td")[3].innerHTML;
+    var phone = e.target.parentNode.parentNode.querySelectorAll("td")[4].innerHTML;
+    var birthday = e.target.parentNode.parentNode.querySelectorAll("td")[5].innerHTML;
+
+
+    $('#id').val(id); // Yes, now we set and use the hidden ID field
+    console.log($('#id').val());
+    $('#firstName').val(firstName);
+    $('#lastName').val(lastName);
+    $('#email').val(email);
+    $('#phone').val(phone);
+    $('#birthday').val(birthday);
+
+    $('#myModal').modal('show');
 }
 
-var buttons = $(".editButton");
-buttons.on("click", editItem);
+
 
 
 // Call your code.
