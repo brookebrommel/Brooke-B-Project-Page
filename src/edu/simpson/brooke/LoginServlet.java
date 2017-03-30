@@ -2,32 +2,25 @@ package edu.simpson.brooke;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import javax.servlet.http.*;
+import java.io.IOException;
 import java.io.PrintWriter;
 
-/**
- * Created by brooke.brommel on 3/23/2017.
- */
-@WebServlet(name = "login_servlet")
 
-
-
-public class login_servlet extends HttpServlet {
+@WebServlet(name = "LoginServlet")
+public class LoginServlet extends HttpServlet {
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/plain");
         PrintWriter out = response.getWriter();
 
-        String sessionKey = request.getParameter("sessionKey");
-        String sessionValue = request.getParameter("sessionValue");
+
+        String sessionValue = request.getParameter("loginId");
 
         HttpSession session = request.getSession();
-        session.setAttribute(sessionKey, sessionValue);
+        session.setAttribute("loginId", sessionValue);
 
         out.println("Done setting the session variable");
+
     }
 
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

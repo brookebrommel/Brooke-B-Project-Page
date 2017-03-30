@@ -9,34 +9,49 @@ function invalidateSessionButton() {
     $.post(url, null, function (dataFromServer) {
         console.log("Finished calling servlet.");
         console.log(dataFromServer);
+        $('#logout').hide();
+        getSessionJava();
     });
 }
 
 function getSessionJava() {
 
-    var url = "api/get_session_servlet";
+    var url = "api/get_login_servlet";
 
     $.post(url, null, function (dataFromServer) {
         console.log("Finished calling servlet.");
         console.log(dataFromServer);
-        $('#getSessionResult').html(dataFromServer)
+        $('#getSessionResult').html(dataFromServer);
+        dataFromServer = dataFromServer.trim();
+        console.log("dataFromServer '"+dataFromServer+"'");
+        if(dataFromServer === "You are not logged in."){
+            $('#logout').hide();
+            console.log("hide");
+        }
+        else{
+            $('#logout').show();
+            console.log("Show");
+
+        }
     });
 }
 
 function setSessionJava() {
 
-    var url = "api/set_session_servlet";
+    var url = "api/login_servlet";
 
-    var sessionKey = $("#sessionKey").val();
-    var sessionValue = $("#sessionValue").val();
 
-    var dataToServer = {sessionKey : sessionKey, sessionValue : sessionValue};
+    var loginId = $("#loginId").val();
+
+    var dataToServer = {loginId : loginId};
 
     $.post(url, dataToServer, function (dataFromServer) {
         console.log("Finished calling servlet.");
         console.log(dataFromServer);
-        $("#sessionKey").val("");
-        $("#sessionValue").val("");
+        $("#loginId").val("");
+        getSessionJava();
+
+
     });
 }
 button = $('#getSessionJava');
@@ -48,3 +63,8 @@ button.on("click", setSessionJava);
 
 button = $('#invalidateSession');
 button.on("click", invalidateSessionButton);
+
+
+
+$('#logout').hide();
+getSessionJava();
